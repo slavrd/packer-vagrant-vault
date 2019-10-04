@@ -1,0 +1,5 @@
+.vagrant/
+.kitchen/
+Gemfile.lock
+.ruby-version
+output-*/

@@ -1,0 +1,5 @@
+---
+name: default
+title: Vault installation
+summary: Test suite for basic check of Vault installation
+version: 0.1.0
