@@ -13,6 +13,6 @@ which vault >/dev/null || {
 vault operator init >vault_init.log 2>&1 && {
     cat vault_init.log | grep 'Unseal Key' | sed -e 's/.*: \(.*\)/\1/' | sudo tee ${VAULT_UNSEAL_KEYS_PATH} >/dev/null
     cat vault_init.log | grep 'Initial Root Token:' | sed -e 's/.*: \(.*\)/\1/' | sudo tee ${VAULT_ROOT_TOKEN_PATH} >/dev/null
-    sudo chown 600 ${VAULT_UNSEAL_KEYS_PATH} ${VAULT_ROOT_TOKEN_PATH}
+    sudo chmod 600 ${VAULT_UNSEAL_KEYS_PATH} ${VAULT_ROOT_TOKEN_PATH}
 }
 [ -f vault_init.log ] && rm -f vault_init.log
