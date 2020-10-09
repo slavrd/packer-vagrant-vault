@@ -14,16 +14,18 @@ The box will have scripts that can be used to initialize and unseal vault locate
 
 ## Building the box with Packer
 
-The packer template is in `template.json`. In the `variables` section you can set parameters to customize the build. Help on setting, overriding variables in packer can be found [here](https://www.packer.io/docs/templates/user-variables.html#setting-variables).
+The packer template is in template.<packer version>.json file e.g. template.v1.6.json. Use the appropriate template for the version of packer you have installed.
+
+In the `variables` section you can set parameters to customize the build. Help on setting, overriding variables in packer can be found [here](https://www.packer.io/docs/templates/user-variables.html#setting-variables).
 
 * `vault_ver` - the version of Vault to install. If it is set to an empty string, the latest version will be installed.
 * `base_box`  - the base box to use. It needs to be a box published to Vagrant cloud so named `user/box`
 * `skip_add` - weather to skip adding the base box to vagrant. If the box is not already added packer will fail.
 * `build_name` - used internally to set parameters of the packer builder. Changing it will change the path of the output artifact, so you will need to adjust parameter in other files like the `box_url` in `.kitchen.yml`.
 
-Run `packer validate template.json` - to make basic template validation.
+Run `packer validate template.v1.6.json` - to make basic template validation.
 
-Run `packer build template.json` - to build the Vagrant box with packer.
+Run `packer build template.v1.6.json` - to build the Vagrant box with packer.
 
 ## Testing with KitchenCI
 
@@ -51,14 +53,14 @@ The project includes a script `vagrant_cloud_upload.sh` to upload the box to Vag
 
 You need to set up Vagrant cloud access by setting the `VAGRANT_CLOUD_TOKEN` environment variable to your user token.
 
-script usage: `vagrant_cloud_upload.sh [box_version]`, box_version will default to `yy.mm.dd` if not set.
+script usage: `./vagrant_cloud_upload.sh [box_version]`, box_version will default to `yy.mm.dd` if not set.
 
 ## Example
 
 ```bash
-packer validate template.json # basic template validation
+packer validate template.v1.6.json # basic template validation
 
-packer build -var 'vault_ver=1.2.3' template.json   # build the box with packer, setting the Vault version.
+packer build -var 'vault_ver=1.2.3' template.v1.6.json   # build the box with packer, setting the Vault version.
 
 bundle exec kitchen test # run tests
 

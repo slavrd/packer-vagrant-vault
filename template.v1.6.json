@@ -1,0 +1,52 @@
+{
+  "builders": [
+    {
+      "add_force": true,
+      "box_name": "{{user `base_box`}}",
+      "communicator": "ssh",
+      "name": "vagrant-{{user `build_name`}}",
+      "provider": "virtualbox",
+      "skip_add": "{{user `skip_add`}}",
+      "source_path": "{{user `base_box`}}",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "destination": "/tmp",
+      "source": "config/",
+      "type": "file"
+    },
+    {
+      "destination": "/tmp/vault_init.sh",
+      "source": "script/vault_init.sh",
+      "type": "file"
+    },
+    {
+      "destination": "/tmp/vault_unseal.sh",
+      "source": "script/vault_unseal.sh",
+      "type": "file"
+    },
+    {
+      "environment_vars": [
+        "DEBIAN_FRONTEND=noninteractive",
+        "VAULT_VER={{user `vault_ver`}}"
+      ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash {{.Path}}",
+      "scripts": [
+        "script/vault_install.sh",
+        "script/vault_setup_service.sh",
+        "script/vault_copy_helpers.sh",
+        "script/cleanup_final.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "base_box": "slavrd/bionic64",
+    "build_name": "ubuntu-vault",
+    "skip_add": "true",
+    "vault_ver": ""
+  }
+}
+
